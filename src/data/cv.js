@@ -34,6 +34,11 @@ export const cvData = {
    // { institution: "Escola Secundária de Águeda", period: "1990–1993", grade: null },
   ],
   languagePercents: [100, 90],
+  plugins: [
+    { slug: 'domain-exchange', downloadUrl: '#' },
+    { slug: 'seo-ai-bulk', downloadUrl: '#' },
+    { slug: 'email-captcha-logger', downloadUrl: '#' },
+  ],
   references: [
     { name: "Joyn Group", url: "https://www.joyn-group.com" },
     { name: "Infosistema", url: "https://www.infosistema.com" },

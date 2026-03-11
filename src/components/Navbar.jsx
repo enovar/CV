@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useLang } from '../context/LangContext';
 
-const NAV_IDS = ['about', 'skills', 'experience', 'education', 'references', 'contact'];
+const NAV_IDS = ['about', 'skills', 'experience', 'education', 'plugins', 'references', 'contact'];
 
 export default function Navbar() {
   const { lang, setLang, t } = useLang();

@@ -6,6 +6,7 @@ export const translations = {
       skills: 'Competências',
       experience: 'Experiência',
       education: 'Formação',
+      plugins: 'Plugins',
       references: 'Referências',
       contact: 'Contacto',
     },
@@ -51,6 +52,26 @@ export const translations = {
       title: 'Certificações',
       languagesTitle: 'Idiomas',
     },
+    // ── Plugins ──────────────────────────────────────────────
+    plugins: {
+      tag: 'WordPress',
+      title: 'Plugins WordPress',
+      download: 'Download',
+    },
+    pluginsData: [
+      {
+        name: 'Domain Exchange',
+        description: 'Substitua com segurança as referências de domínio em toda a sua base de dados do WordPress. Inclui backup completo do banco de dados e restauração antes que quaisquer alterações sejam aplicadas.',
+      },
+      {
+        name: 'SEO AI Bulk',
+        description: 'Gera em massa títulos SEO, meta descrições e palavras-chave de foco usando IA para posts e páginas do WordPress.',
+      },
+      {
+        name: 'Email & CAPTCHA Logger',
+        description: 'Um plugin WordPress que regista todos os emails enviados pelo WordPress e monitoriza verificações de Google reCAPTCHA e Cloudflare Turnstile — com alertas por email e Telegram em caso de falhas.',
+      },
+    ],
     // ── References ───────────────────────────────────────────
     references: {
       tag: 'Portfolio',
@@ -187,6 +208,7 @@ export const translations = {
       skills: 'Skills',
       experience: 'Experience',
       education: 'Education',
+      plugins: 'Plugins',
       references: 'References',
       contact: 'Contact',
     },
@@ -227,6 +249,25 @@ export const translations = {
       title: 'Certifications',
       languagesTitle: 'Languages',
     },
+    plugins: {
+      tag: 'WordPress',
+      title: 'WordPress Plugins',
+      download: 'Download',
+    },
+    pluginsData: [
+      {
+        name: 'Domain Exchange',
+        description: 'Safely replace domain references throughout your WordPress database. Includes full database backup and restore before any changes are applied.',
+      },
+      {
+        name: 'SEO AI Bulk',
+        description: 'Bulk-generates SEO titles, meta descriptions and focus keywords using AI for WordPress posts and pages.',
+      },
+      {
+        name: 'Email & CAPTCHA Logger',
+        description: 'A WordPress plugin that logs all emails sent by WordPress and monitors Google reCAPTCHA and Cloudflare Turnstile verifications — with email and Telegram alerts on failures.',
+      },
+    ],
     references: {
       tag: 'Portfolio',
       title: 'References & Projects',

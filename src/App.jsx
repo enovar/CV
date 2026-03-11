@@ -5,6 +5,7 @@ import About from './components/About';
 import Skills from './components/Skills';
 import Experience from './components/Experience';
 import Education from './components/Education';
+import Plugins from './components/Plugins';
 import References from './components/References';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
@@ -20,6 +21,7 @@ export default function App() {
         <Skills />
         <Experience />
         <Education />
+        <Plugins />
         <References />
         <Contact />
       </main>
