@@ -1,18 +1,25 @@
 import { useInView } from '../hooks/useInView';
 import { cvData } from '../data/cv';
+import { useLang } from '../context/LangContext';
 
 export default function Education() {
   const [ref, inView] = useInView();
+  const { t } = useLang();
+
+  const eduItems = cvData.education.map((e, i) => ({
+    ...e,
+    course: t.educationData[i].course,
+  }));
 
   return (
     <section id="education" className="section education-section" ref={ref}>
       <div className={`container fade-up${inView ? ' visible' : ''}`}>
         <div className="section-header">
-          <span className="section-tag">Formação</span>
-          <h2 className="section-title">Educação & Certificações</h2>
+          <span className="section-tag">{t.education.tag}</span>
+          <h2 className="section-title">{t.education.title}</h2>
         </div>
         <div className="edu-grid">
-          {cvData.education.map((e, i) => (
+          {eduItems.map((e, i) => (
             <div key={i} className="edu-card" style={{ animationDelay: `${i * 0.1}s` }}>
               <div className="edu-period">{e.period}</div>
               <h3 className="edu-course">{e.course}</h3>
@@ -22,9 +29,9 @@ export default function Education() {
           ))}
         </div>
         <div className="languages-section">
-          <h3 className="lang-title">Idiomas</h3>
+          <h3 className="lang-title">{t.education.languagesTitle}</h3>
           <div className="lang-grid">
-            {cvData.languages.map((l, i) => (
+            {t.languages.map((l, i) => (
               <div key={i} className="lang-item">
                 <div className="lang-header">
                   <span className="lang-name">{l.language}</span>
@@ -33,7 +40,7 @@ export default function Education() {
                 <div className="lang-track">
                   <div
                     className="lang-fill"
-                    style={{ width: inView ? `${l.percent}%` : '0%' }}
+                    style={{ width: inView ? `${cvData.languagePercents[i]}%` : '0%' }}
                   />
                 </div>
               </div>

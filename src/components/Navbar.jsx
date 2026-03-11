@@ -1,15 +1,10 @@
 import { useState, useEffect } from 'react';
+import { useLang } from '../context/LangContext';
 
-const links = [
-  { id: 'about', label: 'Perfil' },
-  { id: 'skills', label: 'Competências' },
-  { id: 'experience', label: 'Experiência' },
-  { id: 'education', label: 'Formação' },
-  { id: 'references', label: 'Referências' },
-  { id: 'contact', label: 'Contacto' },
-];
+const NAV_IDS = ['about', 'skills', 'experience', 'education', 'references', 'contact'];
 
 export default function Navbar() {
+  const { lang, setLang, t } = useLang();
   const [scrolled, setScrolled] = useState(false);
   const [active, setActive] = useState('');
   const [menuOpen, setMenuOpen] = useState(false);
@@ -17,7 +12,7 @@ export default function Navbar() {
   useEffect(() => {
     const onScroll = () => {
       setScrolled(window.scrollY > 60);
-      const sections = links.map(l => document.getElementById(l.id));
+      const sections = NAV_IDS.map(id => document.getElementById(id));
       const current = sections.findLast(s => s && s.getBoundingClientRect().top <= 120);
       setActive(current?.id || '');
     };
@@ -30,29 +25,78 @@ export default function Navbar() {
     setMenuOpen(false);
   };
 
+  const links = NAV_IDS.map(id => ({ id, label: t.nav[id] }));
+
+  const LangButtons = ({ mobile = false }) => (
+    <div className={`lang-switcher${mobile ? ' lang-switcher-mobile' : ''}`}>
+      <button
+        className={`lang-btn${lang === 'pt' ? ' active' : ''}`}
+        onClick={() => { setLang('pt'); if (mobile) setMenuOpen(false); }}
+        title="Português"
+        aria-label="Português"
+      >
+        <span className="flag-icon">🇵🇹</span>
+        <span className="lang-code">PT</span>
+      </button>
+      <button
+        className={`lang-btn${lang === 'en' ? ' active' : ''}`}
+        onClick={() => { setLang('en'); if (mobile) setMenuOpen(false); }}
+        title="English"
+        aria-label="English"
+      >
+        <span className="flag-icon">🇬🇧</span>
+        <span className="lang-code">EN</span>
+      </button>
+    </div>
+  );
+
   return (
     <nav className={`navbar${scrolled ? ' scrolled' : ''}`}>
       <div className="navbar-brand" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
         <span className="brand-initials">LP</span>
         <span className="brand-name">Luís P. A.</span>
       </div>
+
+      {/* Desktop: nav links + lang switcher side by side on the right */}
+      <div className="navbar-end">
+        <ul className="nav-links">
+          {links.map(l => (
+            <li key={l.id}>
+              <button
+                className={active === l.id ? 'active' : ''}
+                onClick={() => scrollTo(l.id)}
+              >
+                {l.label}
+              </button>
+            </li>
+          ))}
+        </ul>
+        <div className="nav-divider" />
+        <LangButtons />
+      </div>
+
+      {/* Mobile: hamburger + overlay menu */}
       <button className="menu-toggle" onClick={() => setMenuOpen(!menuOpen)} aria-label="Menu">
         <span className={menuOpen ? 'open' : ''} />
         <span className={menuOpen ? 'open' : ''} />
         <span className={menuOpen ? 'open' : ''} />
       </button>
-      <ul className={`nav-links${menuOpen ? ' open' : ''}`}>
-        {links.map(l => (
-          <li key={l.id}>
-            <button
-              className={active === l.id ? 'active' : ''}
-              onClick={() => scrollTo(l.id)}
-            >
-              {l.label}
-            </button>
-          </li>
-        ))}
-      </ul>
+
+      <div className={`mobile-menu${menuOpen ? ' open' : ''}`}>
+        <ul className="mobile-nav-links">
+          {links.map(l => (
+            <li key={l.id}>
+              <button
+                className={active === l.id ? 'active' : ''}
+                onClick={() => scrollTo(l.id)}
+              >
+                {l.label}
+              </button>
+            </li>
+          ))}
+        </ul>
+        <LangButtons mobile />
+      </div>
     </nav>
   );
 }

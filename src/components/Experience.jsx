@@ -1,20 +1,31 @@
 import { useState } from 'react';
 import { useInView } from '../hooks/useInView';
 import { cvData } from '../data/cv';
+import { useLang } from '../context/LangContext';
 
 export default function Experience() {
   const [ref, inView] = useInView();
   const [expanded, setExpanded] = useState(0);
+  const { t } = useLang();
+
+  const jobs = cvData.experience.map((job, i) => ({
+    ...job,
+    role: t.experienceData[i].role,
+    highlights: t.experienceData[i].highlights,
+    period: job.current
+      ? `${job.periodStart} – ${t.present}`
+      : `${job.periodStart} – ${job.periodEnd}`,
+  }));
 
   return (
     <section id="experience" className="section experience-section" ref={ref}>
       <div className={`container fade-up${inView ? ' visible' : ''}`}>
         <div className="section-header">
-          <span className="section-tag">Carreira</span>
-          <h2 className="section-title">Experiência Profissional</h2>
+          <span className="section-tag">{t.experience.tag}</span>
+          <h2 className="section-title">{t.experience.title}</h2>
         </div>
         <div className="timeline">
-          {cvData.experience.map((job, i) => (
+          {jobs.map((job, i) => (
             <div
               key={i}
               className={`timeline-item${expanded === i ? ' expanded' : ''}${job.current ? ' current' : ''}`}
@@ -27,7 +38,7 @@ export default function Experience() {
                 <div className="timeline-header">
                   <div className="timeline-meta">
                     <span className="timeline-period">{job.period}</span>
-                    {job.current && <span className="current-badge">Atual</span>}
+                    {job.current && <span className="current-badge">{t.currentBadge}</span>}
                   </div>
                   <h3 className="timeline-company">{job.company}</h3>
                   <p className="timeline-role">{job.role}</p>

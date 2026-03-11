@@ -1,61 +1,55 @@
 import { useEffect, useRef } from 'react';
 import { cvData } from '../data/cv';
-
-const ROLES = [
-  'UI/UX Developer Sénior',
-  'WordPress Specialist',
-  'Web Designer',
-  'Performance Expert',
-  'Front End Developer',
-];
+import { useLang } from '../context/LangContext';
+import HeroBg from './HeroBg';
 
 export default function Hero() {
+  const { t } = useLang();
   const typingRef = useRef(null);
+  const stateRef = useRef({ roleIdx: 0, charIdx: 0, deleting: false, timeout: null });
 
   useEffect(() => {
-    let roleIdx = 0;
-    let charIdx = 0;
-    let deleting = false;
-    let timeout;
+    const state = stateRef.current;
+    state.roleIdx = 0;
+    state.charIdx = 0;
+    state.deleting = false;
+    clearTimeout(state.timeout);
 
     const type = () => {
-      const role = ROLES[roleIdx];
-      if (!deleting) {
-        charIdx++;
-        if (typingRef.current) typingRef.current.textContent = role.slice(0, charIdx);
-        if (charIdx === role.length) {
-          deleting = true;
-          timeout = setTimeout(type, 2000);
+      const roles = t.hero.roles;
+      const role = roles[state.roleIdx];
+      if (!state.deleting) {
+        state.charIdx++;
+        if (typingRef.current) typingRef.current.textContent = role.slice(0, state.charIdx);
+        if (state.charIdx === role.length) {
+          state.deleting = true;
+          state.timeout = setTimeout(type, 2000);
           return;
         }
       } else {
-        charIdx--;
-        if (typingRef.current) typingRef.current.textContent = role.slice(0, charIdx);
-        if (charIdx === 0) {
-          deleting = false;
-          roleIdx = (roleIdx + 1) % ROLES.length;
+        state.charIdx--;
+        if (typingRef.current) typingRef.current.textContent = role.slice(0, state.charIdx);
+        if (state.charIdx === 0) {
+          state.deleting = false;
+          state.roleIdx = (state.roleIdx + 1) % roles.length;
         }
       }
-      timeout = setTimeout(type, deleting ? 50 : 80);
+      state.timeout = setTimeout(type, state.deleting ? 50 : 80);
     };
 
-    timeout = setTimeout(type, 500);
-    return () => clearTimeout(timeout);
-  }, []);
+    state.timeout = setTimeout(type, 500);
+    return () => clearTimeout(state.timeout);
+  }, [t]);
 
   const scrollTo = (id) => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
 
   return (
     <section className="hero">
-      <div className="hero-bg">
-        <div className="hero-grid" />
-        <div className="hero-glow glow-1" />
-        <div className="hero-glow glow-2" />
-      </div>
+      <HeroBg />
       <div className="hero-content">
         <div className="hero-badge">
           <span className="badge-dot" />
-          Disponível para novos projetos
+          {t.hero.badge}
         </div>
         <h1 className="hero-name">{cvData.name}</h1>
         <div className="hero-typing">
@@ -63,12 +57,12 @@ export default function Hero() {
           <span className="cursor">|</span>
         </div>
         <p className="hero-years">
-          <span className="years-number">30+</span> anos de experiência
+          <span className="years-number">30+</span> {t.hero.yearsLabel}
         </p>
         <div className="hero-stats">
           <div className="stat">
             <span className="stat-value">30+</span>
-            <span className="stat-label">Anos Exp.</span>
+            <span className="stat-label">{t.hero.yearsExp}</span>
           </div>
           <div className="stat-divider" />
           <div className="stat">
@@ -78,15 +72,15 @@ export default function Hero() {
           <div className="stat-divider" />
           <div className="stat">
             <span className="stat-value">13+</span>
-            <span className="stat-label">Marcas</span>
+            <span className="stat-label">{t.hero.brands}</span>
           </div>
         </div>
         <div className="hero-actions">
           <button className="btn-primary" onClick={() => scrollTo('about')}>
-            Ver Perfil
+            {t.hero.seeProfile}
           </button>
           <button className="btn-outline" onClick={() => scrollTo('experience')}>
-            Experiência
+            {t.hero.experience}
           </button>
         </div>
       </div>

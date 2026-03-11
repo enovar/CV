@@ -1,15 +1,17 @@
 import { useInView } from '../hooks/useInView';
 import { cvData } from '../data/cv';
+import { useLang } from '../context/LangContext';
 
 export default function References() {
   const [ref, inView] = useInView();
+  const { t } = useLang();
 
   return (
     <section id="references" className="section references-section" ref={ref}>
       <div className={`container fade-up${inView ? ' visible' : ''}`}>
         <div className="section-header">
-          <span className="section-tag">Portfolio</span>
-          <h2 className="section-title">Referências & Projetos</h2>
+          <span className="section-tag">{t.references.tag}</span>
+          <h2 className="section-title">{t.references.title}</h2>
         </div>
         <div className="refs-grid">
           {cvData.references.map((r, i) => (
