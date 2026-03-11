@@ -35,9 +35,9 @@ export const cvData = {
   ],
   languagePercents: [100, 90],
   plugins: [
-    { slug: 'domain-exchange', downloadUrl: '#' },
-    { slug: 'seo-ai-bulk', downloadUrl: '#' },
-    { slug: 'email-captcha-logger', downloadUrl: '#' },
+    { slug: 'domain-exchange', downloadUrl: 'https://github.com/enovar/DomainExchange/releases/download/v1.0/domain-exchange.zip' },
+    { slug: 'seo-ai-bulk', downloadUrl: 'https://github.com/enovar/seo-ai-bulk/releases/download/v1.0/seo-ai-bulk.zip' },
+    { slug: 'email-captcha-logger', downloadUrl: 'https://github.com/enovar/EmailLogger/releases/download/v1.0/wp-email-logger.zip' },
   ],
   references: [
     { name: "Joyn Group", url: "https://www.joyn-group.com" },

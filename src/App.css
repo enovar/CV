@@ -810,6 +810,7 @@ a.contact-item:hover { color: var(--accent-2); }
   background: linear-gradient(135deg, rgba(108,99,255,0.06), transparent);
   opacity: 0;
   transition: opacity var(--transition);
+  pointer-events: none;
 }
 .plugin-card:hover {
   border-color: rgba(108,99,255,0.4);

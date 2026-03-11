@@ -23,11 +23,9 @@ export default function Plugins() {
               </div>
               <a
                 href={cvData.plugins[i].downloadUrl}
-                className={`plugin-download${cvData.plugins[i].downloadUrl === '#' ? ' disabled' : ''}`}
-                {...(cvData.plugins[i].downloadUrl !== '#'
-                  ? { download: true, target: '_blank', rel: 'noopener noreferrer' }
-                  : { onClick: e => e.preventDefault() }
-                )}
+                className="plugin-download"
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 <span className="download-icon">↓</span>
                 {t.plugins.download}

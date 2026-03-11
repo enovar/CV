@@ -96,8 +96,7 @@ export const translations = {
       successMsg: 'Obrigado pelo contacto. Responderei o mais brevemente possível.',
       sendAnother: 'Enviar outra mensagem',
       error: 'Ocorreu um erro. Tente novamente.',
-      mailtoTitle: 'Email pronto a enviar!',
-      mailtoMsg: 'O teu cliente de email foi aberto com a mensagem preenchida. Clica em Enviar para completar o contacto.',
+      validationError: 'Por favor preencha todos os campos antes de enviar.',
     },
     // ── Footer ───────────────────────────────────────────────
     footer: {
@@ -290,8 +289,7 @@ export const translations = {
       successMsg: 'Thank you for reaching out. I will reply as soon as possible.',
       sendAnother: 'Send another message',
       error: 'An error occurred. Please try again.',
-      mailtoTitle: 'Email ready to send!',
-      mailtoMsg: 'Your email client has opened with the message pre-filled. Click Send to complete the contact.',
+      validationError: 'Please fill in all fields before sending.',
     },
     footer: {
       built: 'Built with ❤️ ',

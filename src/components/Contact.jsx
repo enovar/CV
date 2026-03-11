@@ -4,38 +4,41 @@ import { useInView } from '../hooks/useInView';
 import { useLang } from '../context/LangContext';
 
 const FORMSPREE_ENDPOINT = 'https://formspree.io/f/maqpoyaj';
-const CONTACT_EMAIL = 'luis.particular@gmail.com';
 const TURNSTILE_SITE_KEY = import.meta.env.VITE_TURNSTILE_SITE_KEY;
-
-function openMailto(form) {
-  const body = `${form.message}\n\n---\nNome: ${form.name}\nEmail: ${form.email}`;
-  window.open(
-    `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(form.subject)}&body=${encodeURIComponent(body)}`
-  );
-}
 
 export default function Contact() {
   const [ref, inView] = useInView();
   const { t } = useLang();
   const c = t.contact;
   const [form, setForm] = useState({ name: '', email: '', subject: '', message: '' });
-  const [status, setStatus] = useState('idle'); // idle | sending | success | mailto | error
+  const [status, setStatus] = useState('idle'); // idle | sending | success | error
+  const [validationError, setValidationError] = useState('');
   const turnstileRef = useRef(null);
   const [tsToken, setTsToken] = useState(null);
 
-  const handleChange = (e) => setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
+  const handleChange = (e) => {
+    setValidationError('');
+    setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
+  };
 
   const reset = () => {
     setStatus('idle');
     setForm({ name: '', email: '', subject: '', message: '' });
+    setValidationError('');
     setTsToken(null);
     turnstileRef.current?.reset();
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setStatus('sending');
 
+    const empty = Object.entries(form).find(([, v]) => !v.trim());
+    if (empty) {
+      setValidationError(c.validationError);
+      return;
+    }
+
+    setStatus('sending');
     const token = tsToken || turnstileRef.current?.getResponse() || null;
 
     try {
@@ -56,26 +59,24 @@ export default function Contact() {
         turnstileRef.current?.reset();
         return;
       }
-      // Non-ok HTTP response — fall through to mailto
     } catch {
-      // fetch blocked by CSP or network error — fall back to mailto
+      // network error
     }
 
-    // Fallback: open pre-filled email client
-    openMailto(form);
-    setStatus('mailto');
+    setStatus('error');
+    turnstileRef.current?.reset();
+    setTsToken(null);
   };
 
-  if (status === 'success' || status === 'mailto') {
-    const isMailto = status === 'mailto';
+  if (status === 'success') {
     return (
       <section id="contact" className="section contact-section" ref={ref}>
         <div className="container">
           <div className="contact-wrapper">
             <div className="contact-success">
-              <span className="success-icon">{isMailto ? '✉' : '✓'}</span>
-              <h3>{isMailto ? c.mailtoTitle : c.successTitle}</h3>
-              <p>{isMailto ? c.mailtoMsg : c.successMsg}</p>
+              <span className="success-icon">✓</span>
+              <h3>{c.successTitle}</h3>
+              <p>{c.successMsg}</p>
               <button className="btn-primary" onClick={reset}>
                 {c.sendAnother}
               </button>
@@ -130,6 +131,9 @@ export default function Contact() {
               />
             )}
 
+            {validationError && (
+              <p className="form-error">{validationError}</p>
+            )}
             {status === 'error' && (
               <p className="form-error">{c.error}</p>
             )}
