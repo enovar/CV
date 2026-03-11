@@ -78,7 +78,7 @@ export const translations = {
     },
     // ── Footer ───────────────────────────────────────────────
     footer: {
-      built: 'Construído com React & Vite',
+      built: 'Construído com ❤️ ',
       contact: 'Contactar',
     },
 
@@ -249,7 +249,7 @@ export const translations = {
       error: 'An error occurred. Please try again.',
     },
     footer: {
-      built: 'Built with React & Vite',
+      built: 'Built with ❤️ ',
       contact: 'Contact',
     },
 

@@ -13,12 +13,7 @@ export default function Footer() {
         <p className="footer-copy">
           © {new Date().getFullYear()} — {t.footer.built}
         </p>
-        <button
-          className="footer-contact"
-          onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
-        >
-          {t.footer.contact}
-        </button>
+
       </div>
     </footer>
   );
