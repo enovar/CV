@@ -31,7 +31,7 @@ export const cvData = {
     { institution: "Rumos", period: "1998–1999", grade: "14 Valores" },
     { institution: "IJOVIP", period: "1995–1996", grade: "13 Valores" },
     { institution: "IJOVIP", period: "1993–1994", grade: "15 Valores" },
-    { institution: "Escola Secundária de Águeda", period: "1990–1993", grade: null },
+   // { institution: "Escola Secundária de Águeda", period: "1990–1993", grade: null },
   ],
   languagePercents: [100, 90],
   references: [

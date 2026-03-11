@@ -53,7 +53,7 @@ export default function Navbar() {
   return (
     <nav className={`navbar${scrolled ? ' scrolled' : ''}`}>
       <div className="navbar-brand" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-        <span className="brand-initials">LP</span>
+        <span className="brand-initials">CV</span>
         <span className="brand-name">Luís P. A.</span>
       </div>
 
