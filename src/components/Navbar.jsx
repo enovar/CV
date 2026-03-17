@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useLang } from '../context/LangContext';
+import { useTheme } from '../context/ThemeContext';
 
 const NAV_IDS = ['about', 'skills', 'experience', 'education', 'plugins', 'references', 'contact'];
 
 export default function Navbar() {
   const { lang, setLang, t } = useLang();
+  const { theme, toggle } = useTheme();
   const [scrolled, setScrolled] = useState(false);
   const [active, setActive] = useState('');
   const [menuOpen, setMenuOpen] = useState(false);
@@ -73,6 +75,10 @@ export default function Navbar() {
         </ul>
         <div className="nav-divider" />
         <LangButtons />
+        <div className="nav-divider" />
+        <button className="theme-toggle" onClick={toggle} aria-label="Toggle theme" title={theme === 'dark' ? 'Light mode' : 'Dark mode'}>
+          {theme === 'dark' ? '☀️' : '🌙'}
+        </button>
       </div>
 
       {/* Mobile: hamburger + overlay menu */}
@@ -96,6 +102,9 @@ export default function Navbar() {
           ))}
         </ul>
         <LangButtons mobile />
+        <button className="theme-toggle" onClick={() => { toggle(); setMenuOpen(false); }} aria-label="Toggle theme" style={{ marginTop: '8px', width: '52px', height: '52px', fontSize: '1.4rem' }}>
+          {theme === 'dark' ? '☀️' : '🌙'}
+        </button>
       </div>
     </nav>
   );

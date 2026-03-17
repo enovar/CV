@@ -1,20 +1,18 @@
 import { useState, useRef } from 'react';
-import { Turnstile } from '@marsidev/react-turnstile';
 import { useInView } from '../hooks/useInView';
 import { useLang } from '../context/LangContext';
 
 const FORMSPREE_ENDPOINT = 'https://formspree.io/f/maqpoyaj';
-const TURNSTILE_SITE_KEY = import.meta.env.VITE_TURNSTILE_SITE_KEY;
 
 export default function Contact() {
   const [ref, inView] = useInView();
   const { t } = useLang();
   const c = t.contact;
+  const formRef = useRef(null);
+  const turnstileRef = useRef(null);
   const [form, setForm] = useState({ name: '', email: '', subject: '', message: '' });
   const [status, setStatus] = useState('idle'); // idle | sending | success | error
   const [validationError, setValidationError] = useState('');
-  const turnstileRef = useRef(null);
-  const [tsToken, setTsToken] = useState(null);
 
   const handleChange = (e) => {
     setValidationError('');
@@ -25,8 +23,6 @@ export default function Contact() {
     setStatus('idle');
     setForm({ name: '', email: '', subject: '', message: '' });
     setValidationError('');
-    setTsToken(null);
-    turnstileRef.current?.reset();
   };
 
   const handleSubmit = async (e) => {
@@ -38,8 +34,9 @@ export default function Contact() {
       return;
     }
 
+    const token = formRef.current?.querySelector('[name="cf-turnstile-response"]')?.value || null;
+
     setStatus('sending');
-    const token = tsToken || turnstileRef.current?.getResponse() || null;
 
     try {
       const res = await fetch(FORMSPREE_ENDPOINT, {
@@ -55,8 +52,6 @@ export default function Contact() {
       if (res.ok) {
         setStatus('success');
         setForm({ name: '', email: '', subject: '', message: '' });
-        setTsToken(null);
-        turnstileRef.current?.reset();
         return;
       }
     } catch {
@@ -64,8 +59,7 @@ export default function Contact() {
     }
 
     setStatus('error');
-    turnstileRef.current?.reset();
-    setTsToken(null);
+    if (window.turnstile && turnstileRef.current) window.turnstile.reset(turnstileRef.current);
   };
 
   if (status === 'success') {
@@ -96,7 +90,7 @@ export default function Contact() {
           <p className="section-subtitle">{c.subtitle}</p>
         </div>
         <div className="contact-wrapper">
-          <form className="contact-form" onSubmit={handleSubmit} noValidate>
+          <form ref={formRef} className="contact-form" onSubmit={handleSubmit} noValidate>
             <div className="form-row">
               <div className="form-group">
                 <label htmlFor="name">{c.nameLabel}</label>
@@ -120,16 +114,7 @@ export default function Contact() {
                 value={form.message} onChange={handleChange} required />
             </div>
 
-            {TURNSTILE_SITE_KEY && (
-              <Turnstile
-                ref={turnstileRef}
-                siteKey={TURNSTILE_SITE_KEY}
-                options={{ size: 'invisible', execution: 'render' }}
-                onSuccess={(token) => setTsToken(token)}
-                onExpire={() => setTsToken(null)}
-                onError={() => setTsToken(null)}
-              />
-            )}
+            <div ref={turnstileRef} className="cf-turnstile" data-sitekey="0x4AAAAAACpLZchgFOEv9Asv"></div>
 
             {validationError && (
               <p className="form-error">{validationError}</p>

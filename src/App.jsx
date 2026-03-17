@@ -1,4 +1,5 @@
 import { LangProvider } from './context/LangContext';
+import { ThemeProvider } from './context/ThemeContext';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import About from './components/About';
@@ -13,6 +14,7 @@ import './App.css';
 
 export default function App() {
   return (
+    <ThemeProvider>
     <LangProvider>
       <Navbar />
       <main>
@@ -27,5 +29,6 @@ export default function App() {
       </main>
       <Footer />
     </LangProvider>
+    </ThemeProvider>
   );
 }
