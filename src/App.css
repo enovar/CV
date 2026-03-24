@@ -887,10 +887,26 @@ a.contact-item:hover { color: var(--accent-2); }
 }
 .plugin-body { flex: 1; }
 .plugin-name {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   font-size: 1.05rem;
   font-weight: 700;
   color: var(--text);
   margin-bottom: 10px;
+}
+.plugin-badge {
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 2px 7px;
+  border-radius: 4px;
+  background: rgba(108,99,255,0.18);
+  color: var(--accent);
+  border: 1px solid rgba(108,99,255,0.35);
+  text-transform: uppercase;
+  margin-left: auto;
+  white-space: nowrap;
 }
 .plugin-desc {
   font-size: 0.875rem;

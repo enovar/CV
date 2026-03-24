@@ -18,7 +18,12 @@ export default function Plugins() {
             <div key={i} className="plugin-card" style={{ animationDelay: `${i * 0.1}s` }}>
               <div className="plugin-icon">⬡</div>
               <div className="plugin-body">
-                <h3 className="plugin-name">{plugin.name}</h3>
+                <h3 className="plugin-name">
+                  {plugin.name}
+                  {cvData.plugins[i].badge && (
+                    <span className="plugin-badge">{cvData.plugins[i].badge}</span>
+                  )}
+                </h3>
                 <p className="plugin-desc">{plugin.description}</p>
               </div>
               <a
