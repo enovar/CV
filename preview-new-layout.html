@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CV — New Layout Preview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ── PALETTE: Purple (default) ── */
+:root {
+  --bg: #08080f;
+  --bg-1: #0d0d18;
+  --bg-2: #13131e;
+  --bg-3: #1a1a28;
+  --accent: #7c6fff;
+  --accent-2: #b8acff;
+  --accent-3: #ff6b9d;
+  --text: #f0f0f8;
+  --text-muted: #8888aa;
+  --border: rgba(255,255,255,0.06);
+  --border-hover: rgba(124,111,255,0.3);
+  --glow: rgba(124,111,255,0.15);
+  --orb1-color: rgba(124,111,255,0.12);
+  --orb2-color: rgba(255,107,157,0.07);
+}
+
+/* ── PALETTE: Ocean (navy + cyan) ── */
+[data-palette="ocean"] {
+  --bg: #030d17;
+  --bg-1: #071525;
+  --bg-2: #0c1e32;
+  --bg-3: #122540;
+  --accent: #06b6d4;
+  --accent-2: #67e8f9;
+  --accent-3: #f59e0b;
+  --text: #e8f4f8;
+  --text-muted: #7aadbe;
+  --border: rgba(6,182,212,0.1);
+  --border-hover: rgba(6,182,212,0.35);
+  --glow: rgba(6,182,212,0.12);
+  --orb1-color: rgba(6,182,212,0.1);
+  --orb2-color: rgba(245,158,11,0.07);
+}
+
+/* ── PALETTE: Emerald (carbon + green) ── */
+[data-palette="emerald"] {
+  --bg: #040d08;
+  --bg-1: #081510;
+  --bg-2: #0d1f17;
+  --bg-3: #122a1e;
+  --accent: #10b981;
+  --accent-2: #6ee7b7;
+  --accent-3: #818cf8;
+  --text: #ecfdf5;
+  --text-muted: #6b9e87;
+  --border: rgba(16,185,129,0.1);
+  --border-hover: rgba(16,185,129,0.35);
+  --glow: rgba(16,185,129,0.12);
+  --orb1-color: rgba(16,185,129,0.1);
+  --orb2-color: rgba(129,140,248,0.07);
+}
+
+/* ── PALETTE: Gold (slate + amber) ── */
+[data-palette="gold"] {
+  --bg: #0a0800;
+  --bg-1: #141000;
+  --bg-2: #1c1700;
+  --bg-3: #252000;
+  --accent: #f59e0b;
+  --accent-2: #fcd34d;
+  --accent-3: #fb7185;
+  --text: #fefce8;
+  --text-muted: #a0916b;
+  --border: rgba(245,158,11,0.1);
+  --border-hover: rgba(245,158,11,0.35);
+  --glow: rgba(245,158,11,0.12);
+  --orb1-color: rgba(245,158,11,0.1);
+  --orb2-color: rgba(251,113,133,0.07);
+}
+
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* ── NAVBAR ── */
+.navbar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 48px;
+  background: rgba(8,8,15,0.7);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-brand { display: flex; align-items: center; gap: 10px; }
+.nav-logo {
+  width: 38px; height: 38px; background: var(--accent);
+  border-radius: 10px; display: grid; place-items: center;
+  font-weight: 800; font-size: 0.85rem; color: #fff; letter-spacing: -0.02em;
+}
+.nav-name { font-weight: 600; font-size: 0.95rem; }
+.nav-links { display: flex; gap: 2px; list-style: none; }
+.nav-links a {
+  padding: 6px 14px; border-radius: 8px; font-size: 0.82rem;
+  color: var(--text-muted); text-decoration: none; font-weight: 500;
+  transition: all 0.2s;
+}
+.nav-links a:hover { color: var(--text); background: rgba(255,255,255,0.05); }
+.nav-cta {
+  padding: 8px 20px; background: var(--accent); color: #fff;
+  border: none; border-radius: 10px; font-size: 0.82rem; font-weight: 600;
+  cursor: pointer; font-family: inherit;
+}
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh; display: flex; align-items: center;
+  padding: 120px 48px 80px;
+  position: relative; overflow: hidden;
+}
+.hero-bg-orb {
+  position: absolute; border-radius: 50%; filter: blur(80px); pointer-events: none;
+}
+.orb1 { width: 600px; height: 600px; background: var(--orb1-color); top: -100px; right: -100px; }
+.orb2 { width: 400px; height: 400px; background: var(--orb2-color); bottom: 0; left: 200px; }
+.orb3 { width: 300px; height: 300px; background: var(--orb1-color); top: 50%; left: -50px; }
+
+.hero-inner {
+  max-width: 1100px; margin: 0 auto; width: 100%;
+  display: grid; grid-template-columns: 1fr 420px; gap: 80px; align-items: center;
+}
+.hero-status {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(124,111,255,0.1); border: 1px solid rgba(124,111,255,0.25);
+  padding: 6px 14px 6px 10px; border-radius: 100px;
+  font-size: 0.78rem; font-weight: 500; color: var(--accent-2);
+  margin-bottom: 28px;
+}
+.status-dot {
+  width: 7px; height: 7px; background: #4ade80;
+  border-radius: 50%; animation: pulse 2s infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(0.8)} }
+
+.hero-name {
+  font-size: clamp(3rem, 6vw, 5.5rem);
+  font-weight: 900; letter-spacing: -0.04em; line-height: 1;
+  margin-bottom: 16px;
+}
+.hero-name-accent {
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-3) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.hero-role {
+  font-size: 1.25rem; font-weight: 400; color: var(--text-muted);
+  margin-bottom: 32px; min-height: 1.8em;
+}
+.hero-role span { color: var(--accent-2); font-weight: 600; }
+.cursor-blink { animation: blink 1s infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+.hero-desc {
+  font-size: 1rem; color: var(--text-muted); line-height: 1.75;
+  max-width: 520px; margin-bottom: 40px;
+}
+
+.hero-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 56px; }
+.btn-primary {
+  padding: 14px 28px; background: var(--accent); color: #fff;
+  border: none; border-radius: 12px; font-size: 0.95rem; font-weight: 600;
+  cursor: pointer; font-family: inherit;
+  box-shadow: 0 8px 32px rgba(124,111,255,0.35);
+  transition: all 0.2s;
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(124,111,255,0.45); }
+.btn-outline {
+  padding: 14px 28px; background: transparent; color: var(--text);
+  border: 1px solid var(--border-hover); border-radius: 12px;
+  font-size: 0.95rem; font-weight: 600; cursor: pointer; font-family: inherit;
+  transition: all 0.2s;
+}
+.btn-outline:hover { background: rgba(124,111,255,0.08); border-color: var(--accent); }
+
+.hero-stats { display: flex; gap: 32px; }
+.stat-item { display: flex; flex-direction: column; gap: 4px; }
+.stat-value { font-size: 2rem; font-weight: 800; letter-spacing: -0.04em; line-height: 1; }
+.stat-value.accent { color: var(--accent); }
+.stat-label { font-size: 0.75rem; color: var(--text-muted); font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; }
+.stat-sep { width: 1px; background: var(--border); align-self: stretch; margin: 4px 0; }
+
+/* Hero card */
+.hero-card {
+  background: var(--bg-1); border: 1px solid var(--border);
+  border-radius: 24px; padding: 32px; position: relative; overflow: hidden;
+}
+.hero-card::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(circle at top right, rgba(124,111,255,0.08), transparent 60%);
+}
+.hero-card-header {
+  display: flex; align-items: center; gap: 12px; margin-bottom: 28px;
+}
+.avatar-ring {
+  width: 64px; height: 64px; border-radius: 50%;
+  border: 2px solid var(--accent);
+  display: grid; place-items: center;
+  font-size: 1.6rem; background: var(--bg-2);
+  box-shadow: 0 0 20px rgba(124,111,255,0.3);
+}
+.hero-card-name { font-weight: 700; font-size: 1.1rem; }
+.hero-card-role { font-size: 0.8rem; color: var(--accent-2); margin-top: 2px; }
+
+.skill-bar-row { margin-bottom: 16px; }
+.skill-bar-label { display: flex; justify-content: space-between; font-size: 0.78rem; color: var(--text-muted); margin-bottom: 6px; }
+.skill-bar-track { height: 6px; background: var(--bg-3); border-radius: 100px; overflow: hidden; }
+.skill-bar-fill { height: 100%; border-radius: 100px; background: linear-gradient(90deg, var(--accent), var(--accent-3)); }
+
+.tag-cloud { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
+.tag {
+  padding: 5px 12px; background: var(--bg-2); border: 1px solid var(--border);
+  border-radius: 8px; font-size: 0.75rem; color: var(--text-muted); font-weight: 500;
+}
+.tag.hot { background: rgba(124,111,255,0.1); border-color: rgba(124,111,255,0.25); color: var(--accent-2); }
+
+/* ── BENTO ABOUT ── */
+.section { padding: 100px 48px; max-width: 1196px; margin: 0 auto; }
+.section-eyebrow {
+  font-size: 0.72rem; font-weight: 700; letter-spacing: 0.15em;
+  text-transform: uppercase; color: var(--accent); margin-bottom: 10px;
+}
+.section-title {
+  font-size: clamp(2rem, 4vw, 3rem); font-weight: 800;
+  letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 48px;
+  color: var(--text);
+}
+.section-title span { color: var(--accent); }
+
+.bento { display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: auto; gap: 16px; }
+.bento-card {
+  background: var(--bg-1); border: 1px solid var(--border);
+  border-radius: 20px; padding: 28px;
+  transition: border-color 0.2s, transform 0.2s;
+  position: relative; overflow: hidden;
+}
+.bento-card:hover { border-color: var(--border-hover); transform: translateY(-2px); }
+.bento-card.span2 { grid-column: span 2; }
+.bento-card.tall { grid-row: span 2; }
+.bento-card-icon { font-size: 1.8rem; margin-bottom: 16px; }
+.bento-card-title { font-size: 1.05rem; font-weight: 700; margin-bottom: 8px; }
+.bento-card-text { font-size: 0.85rem; color: var(--text-muted); line-height: 1.7; }
+.bento-accent-bg {
+  background: linear-gradient(135deg, rgba(124,111,255,0.12), rgba(255,107,157,0.06));
+  border-color: rgba(124,111,255,0.2);
+}
+.big-number { font-size: 3.5rem; font-weight: 900; letter-spacing: -0.04em; color: var(--accent); line-height: 1; }
+.big-label { font-size: 0.8rem; color: var(--text-muted); margin-top: 4px; }
+
+/* ── EXPERIENCE TIMELINE ── */
+.exp-section { padding: 100px 48px; max-width: 1196px; margin: 0 auto; }
+.timeline { position: relative; padding-left: 32px; }
+.timeline::before {
+  content: ''; position: absolute; left: 0; top: 8px; bottom: 8px;
+  width: 2px; background: linear-gradient(to bottom, var(--accent), transparent);
+}
+.timeline-item { position: relative; margin-bottom: 40px; padding-left: 24px; }
+.timeline-dot {
+  position: absolute; left: -32px; top: 6px;
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--accent); border: 2px solid var(--bg);
+  box-shadow: 0 0 10px rgba(124,111,255,0.5);
+}
+.timeline-item.current .timeline-dot { background: #4ade80; box-shadow: 0 0 10px rgba(74,222,128,0.5); }
+.timeline-card {
+  background: var(--bg-1); border: 1px solid var(--border);
+  border-radius: 16px; padding: 24px 28px;
+  transition: border-color 0.2s;
+}
+.timeline-card:hover { border-color: var(--border-hover); }
+.timeline-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 8px; }
+.timeline-company { font-weight: 700; font-size: 1rem; }
+.timeline-period { font-size: 0.78rem; color: var(--text-muted); background: var(--bg-2); padding: 4px 10px; border-radius: 6px; }
+.timeline-badge { display: inline-flex; align-items: center; gap: 5px; font-size: 0.7rem; font-weight: 600; color: #4ade80; background: rgba(74,222,128,0.1); padding: 3px 10px; border-radius: 100px; margin-top: 4px; }
+.timeline-badge::before { content: ''; width: 5px; height: 5px; background: #4ade80; border-radius: 50%; }
+
+/* ── SKILLS GRID ── */
+.skills-section { padding: 100px 48px; max-width: 1196px; margin: 0 auto; }
+.skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.skill-group {
+  background: var(--bg-1); border: 1px solid var(--border);
+  border-radius: 20px; padding: 28px;
+  transition: border-color 0.2s;
+}
+.skill-group:hover { border-color: var(--border-hover); }
+.skill-group-icon { font-size: 1.6rem; margin-bottom: 12px; }
+.skill-group-name { font-weight: 700; font-size: 0.95rem; margin-bottom: 20px; }
+.skill-item-row { margin-bottom: 12px; }
+.skill-item-label { display: flex; justify-content: space-between; font-size: 0.78rem; margin-bottom: 5px; }
+.skill-item-name { color: var(--text-muted); }
+.skill-item-pct { color: var(--text); font-weight: 600; }
+.skill-track { height: 4px; background: var(--bg-3); border-radius: 100px; }
+.skill-fill { height: 100%; border-radius: 100px; background: linear-gradient(90deg, var(--accent), var(--accent-2)); }
+
+/* ── REFERENCES LOGOS ── */
+.refs-section { padding: 100px 48px; max-width: 1196px; margin: 0 auto; }
+.refs-marquee {
+  display: flex; flex-wrap: wrap; gap: 12px;
+}
+.ref-pill {
+  padding: 10px 22px; background: var(--bg-1); border: 1px solid var(--border);
+  border-radius: 100px; font-size: 0.85rem; font-weight: 600; color: var(--text-muted);
+  transition: all 0.2s; text-decoration: none;
+}
+.ref-pill:hover { border-color: var(--accent); color: var(--text); background: rgba(124,111,255,0.08); }
+
+/* ── CONTACT ── */
+.contact-section { padding: 100px 48px 120px; max-width: 1196px; margin: 0 auto; }
+.contact-inner {
+  background: linear-gradient(135deg, rgba(124,111,255,0.1), rgba(255,107,157,0.05));
+  border: 1px solid rgba(124,111,255,0.2);
+  border-radius: 28px; padding: 60px 64px;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center;
+}
+.contact-left-title { font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 16px; }
+.contact-left-sub { font-size: 1rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 32px; }
+.contact-meta { display: flex; flex-direction: column; gap: 12px; }
+.contact-meta-item { display: flex; align-items: center; gap: 10px; font-size: 0.88rem; color: var(--text-muted); }
+.contact-meta-icon { width: 34px; height: 34px; background: var(--bg-2); border: 1px solid var(--border); border-radius: 8px; display: grid; place-items: center; font-size: 0.9rem; flex-shrink: 0; }
+.form-field { margin-bottom: 16px; }
+.form-label { font-size: 0.78rem; font-weight: 600; color: var(--text-muted); margin-bottom: 6px; display: block; text-transform: uppercase; letter-spacing: 0.06em; }
+.form-input {
+  width: 100%; background: rgba(255,255,255,0.04); border: 1px solid var(--border);
+  border-radius: 12px; padding: 12px 16px; color: var(--text); font-family: inherit; font-size: 0.9rem;
+  outline: none; transition: border-color 0.2s;
+}
+.form-input:focus { border-color: var(--accent); }
+textarea.form-input { resize: vertical; min-height: 100px; }
+.form-submit { width: 100%; padding: 14px; background: var(--accent); color: #fff; border: none; border-radius: 12px; font-size: 0.95rem; font-weight: 700; cursor: pointer; font-family: inherit; box-shadow: 0 8px 24px rgba(124,111,255,0.35); transition: all 0.2s; margin-top: 4px; }
+.form-submit:hover { transform: translateY(-1px); box-shadow: 0 12px 32px rgba(124,111,255,0.45); }
+
+/* Divider */
+.section-divider { height: 1px; background: var(--border); max-width: 1100px; margin: 0 auto; }
+
+/* Preview badge */
+.preview-notice {
+  position: fixed; bottom: 20px; right: 20px; z-index: 9999;
+  background: rgba(255,107,157,0.9); color: #fff; padding: 8px 16px;
+  border-radius: 100px; font-size: 0.78rem; font-weight: 600;
+  backdrop-filter: blur(10px);
+}
+
+/* Palette Switcher */
+.palette-switcher {
+  position: fixed; top: 80px; right: 16px; z-index: 9999;
+  display: flex; flex-direction: column; gap: 8px;
+  background: rgba(0,0,0,0.7); backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.08); border-radius: 14px;
+  padding: 10px 12px;
+}
+.palette-switcher label {
+  font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em;
+  text-transform: uppercase; color: rgba(255,255,255,0.4);
+  margin-bottom: 2px; display: block;
+}
+.pal-btn {
+  display: flex; align-items: center; gap: 8px;
+  background: transparent; border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 8px; padding: 7px 12px; cursor: pointer;
+  font-family: inherit; font-size: 0.75rem; font-weight: 600;
+  color: rgba(255,255,255,0.6); transition: all 0.15s; white-space: nowrap;
+}
+.pal-btn:hover { color: #fff; border-color: rgba(255,255,255,0.2); background: rgba(255,255,255,0.05); }
+.pal-btn.active { color: #fff; border-color: rgba(255,255,255,0.3); background: rgba(255,255,255,0.08); }
+.pal-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+</style>
+</head>
+<body>
+
+<div class="preview-notice">Preview Only — Not Live</div>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="nav-brand">
+    <div class="nav-logo">LA</div>
+    <span class="nav-name">Luís P. A.</span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#about">Profile</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#plugins">Plugins</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <button class="nav-cta">Let's Talk</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="hero-bg-orb orb1"></div>
+  <div class="hero-bg-orb orb2"></div>
+  <div class="hero-bg-orb orb3"></div>
+
+  <div class="hero-inner">
+    <div>
+      <div class="hero-status">
+        <span class="status-dot"></span>
+        Available for new projects
+      </div>
+      <h1 class="hero-name">
+        Luís<br>
+        <span class="hero-name-accent">Almeida</span>
+      </h1>
+      <p class="hero-role">
+        <span>UI/UX Developer Sénior</span><span class="cursor-blink">|</span>
+      </p>
+      <p class="hero-desc">
+        30+ years crafting digital experiences — from pixel-perfect interfaces to high-performance WordPress solutions. Trusted by 13+ brands across Portugal and Europe.
+      </p>
+      <div class="hero-actions">
+        <button class="btn-primary">See Full Profile</button>
+        <button class="btn-outline">View Experience</button>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-item">
+          <span class="stat-value accent">30+</span>
+          <span class="stat-label">Years Exp.</span>
+        </div>
+        <div class="stat-sep"></div>
+        <div class="stat-item">
+          <span class="stat-value">9.759</span>
+          <span class="stat-label">Stack Overflow</span>
+        </div>
+        <div class="stat-sep"></div>
+        <div class="stat-item">
+          <span class="stat-value">13+</span>
+          <span class="stat-label">Brands</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hero Side Card -->
+    <div class="hero-card">
+      <div class="hero-card-header">
+        <div class="avatar-ring">👤</div>
+        <div>
+          <div class="hero-card-name">Luís P. Almeida</div>
+          <div class="hero-card-role">Senior UI/UX · WordPress Expert</div>
+        </div>
+      </div>
+      <div class="skill-bar-row">
+        <div class="skill-bar-label"><span>React / Vue</span><span>96%</span></div>
+        <div class="skill-bar-track"><div class="skill-bar-fill" style="width:96%"></div></div>
+      </div>
+      <div class="skill-bar-row">
+        <div class="skill-bar-label"><span>WordPress</span><span>98%</span></div>
+        <div class="skill-bar-track"><div class="skill-bar-fill" style="width:98%"></div></div>
+      </div>
+      <div class="skill-bar-row">
+        <div class="skill-bar-label"><span>UI/UX Design</span><span>95%</span></div>
+        <div class="skill-bar-track"><div class="skill-bar-fill" style="width:95%"></div></div>
+      </div>
+      <div class="skill-bar-row">
+        <div class="skill-bar-label"><span>Performance</span><span>93%</span></div>
+        <div class="skill-bar-track"><div class="skill-bar-fill" style="width:93%"></div></div>
+      </div>
+      <div class="tag-cloud">
+        <span class="tag hot">React</span>
+        <span class="tag hot">WordPress</span>
+        <span class="tag">PHP</span>
+        <span class="tag">Node.js</span>
+        <span class="tag hot">Figma</span>
+        <span class="tag">MySQL</span>
+        <span class="tag">CSS</span>
+        <span class="tag hot">SEO</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ABOUT BENTO -->
+<section id="about" class="section">
+  <div class="section-eyebrow">About</div>
+  <div class="section-title">Built on <span>3 decades</span><br>of craft & code</div>
+
+  <div class="bento">
+    <div class="bento-card span2 bento-accent-bg">
+      <div class="bento-card-icon">🧠</div>
+      <div class="bento-card-title">Professional Profile</div>
+      <div class="bento-card-text">
+        Versatile Senior Developer with 30+ years bridging design and engineering. Specialist in WordPress architecture, UI/UX design systems, and front-end performance. Currently at Infosistema since 2010, delivering scalable digital solutions for enterprise clients.
+      </div>
+    </div>
+    <div class="bento-card" style="text-align:center; display:flex; flex-direction:column; align-items:center; justify-content:center;">
+      <div class="big-number">30+</div>
+      <div class="big-label">Years of experience</div>
+    </div>
+    <div class="bento-card">
+      <div class="bento-card-icon">📍</div>
+      <div class="bento-card-title">Location</div>
+      <div class="bento-card-text">Parede, Portugal<br><br>Available remotely worldwide and on-site in the Lisbon area.</div>
+    </div>
+    <div class="bento-card" style="text-align:center; display:flex; flex-direction:column; align-items:center; justify-content:center;">
+      <div class="big-number" style="color:#f59e0b">9.759</div>
+      <div class="big-label">Stack Overflow Rep.</div>
+    </div>
+    <div class="bento-card">
+      <div class="bento-card-icon">✦</div>
+      <div class="bento-card-title">Key Differentiators</div>
+      <div class="bento-card-text">
+        <ul style="list-style:none; display:flex; flex-direction:column; gap:8px;">
+          <li style="display:flex; gap:8px; align-items:flex-start;"><span style="color:var(--accent); margin-top:3px;">→</span> Full-stack from design to deployment</li>
+          <li style="display:flex; gap:8px; align-items:flex-start;"><span style="color:var(--accent); margin-top:3px;">→</span> WordPress & WooCommerce specialist</li>
+          <li style="display:flex; gap:8px; align-items:flex-start;"><span style="color:var(--accent); margin-top:3px;">→</span> Performance & Core Web Vitals focus</li>
+          <li style="display:flex; gap:8px; align-items:flex-start;"><span style="color:var(--accent); margin-top:3px;">→</span> 13+ brands delivered</li>
+        </ul>
+      </div>
+    </div>
+    <div class="bento-card" style="text-align:center; display:flex; flex-direction:column; align-items:center; justify-content:center;">
+      <div class="big-number" style="color:#4ade80">13+</div>
+      <div class="big-label">Brands Served</div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- SKILLS -->
+<section id="skills" class="skills-section">
+  <div class="section-eyebrow">Toolkit</div>
+  <div class="section-title">Technical <span>Skills</span></div>
+
+  <div class="skills-grid">
+    <div class="skill-group">
+      <div class="skill-group-icon">⬡</div>
+      <div class="skill-group-name">Frontend</div>
+      <div class="skill-item-row"><div class="skill-item-label"><span class="skill-item-name">HTML5</span><span class="skill-item-pct">98%</span></div><div class="skill-track"><div class="skill-fill" style="width:98%"></div></div></div>
+      <div class="skill-item-row"><div class="skill-item-label"><span class="skill-item-name">CSS3 / Sass</span><span class="skill-item-pct">96%</span></div><div class="skill-track"><div class="skill-fill" style="width:96%"></div></div></div>
+      <div class="skill-item-row"><div class="skill-item-label"><span class="skill-item-name">JavaScript</span><span class="skill-item-pct">95%</span></div><div class="skill-track"><div class="skill-fill" style="width:95%"></div></div></div>
+      <div class="skill-item-row"><div class="skill-item-label"><span class="skill-item-name">React</span><span class="skill-item-pct">90%</span></div><div class="skill-track"><div class="skill-fill" style="width:90%"></div></div></div>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-icon">◈</div>
+      <div class="skill-group-name">WordPress</div>
+      <div class="skill-item-row"><div class="skill-item-label"><span class="skill-item-name">WordPress Core</span><span class="skill-item-pct">98%</span></div><div class="skill-track"><div class="skill-fill" style="width:98%"></div></div></div>
+      <div class="skill-item-row"><div class="skill-item-label"><span class="skill-item-name">WooCommerce</span><span class="skill-item-pct">98%</span></div><div class="skill-track"><div class="skill-fill" style="width:98%"></div></div></div>
+      <div class="skill-item-row"><div class="skill-item-label"><span class="skill-item-name">ACF / Gutenberg</span><span class="skill-item-pct">95%</span></div><div class="skill-track"><div class="skill-fill" style="width:95%"></div></div></div>
+      <div class="skill-item-row"><div class="skill-item-label"><span class="skill-item-name">Plugin Dev</span><span class="skill-item-pct">90%</span></div><div class="skill-track"><div class="skill-fill" style="width:90%"></div></div></div>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-icon">◎</div>
+      <div class="skill-group-name">Design & UX</div>
+      <div class="skill-item-row"><div class="skill-item-label"><span class="skill-item-name">Figma</span><span class="skill-item-pct">95%</span></div><div class="skill-track"><div class="skill-fill" style="width:95%"></div></div></div>
+      <div class="skill-item-row"><div class="skill-item-label"><span class="skill-item-name">UI Design</span><span class="skill-item-pct">92%</span></div><div class="skill-track"><div class="skill-fill" style="width:92%"></div></div></div>
+      <div class="skill-item-row"><div class="skill-item-label"><span class="skill-item-name">UX Research</span><span class="skill-item-pct">90%</span></div><div class="skill-track"><div class="skill-fill" style="width:90%"></div></div></div>
+      <div class="skill-item-row"><div class="skill-item-label"><span class="skill-item-name">Prototyping</span><span class="skill-item-pct">93%</span></div><div class="skill-track"><div class="skill-fill" style="width:93%"></div></div></div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- EXPERIENCE -->
+<section id="experience" class="exp-section">
+  <div class="section-eyebrow">Career</div>
+  <div class="section-title">Professional <span>Experience</span></div>
+
+  <div class="timeline">
+    <div class="timeline-item current">
+      <div class="timeline-dot"></div>
+      <div class="timeline-card">
+        <div class="timeline-header">
+          <div>
+            <div class="timeline-company">Infosistema – Sistemas de Informação, SA.</div>
+            <div class="timeline-badge">Current Position</div>
+          </div>
+          <div class="timeline-period">2010 → Present</div>
+        </div>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-card">
+        <div class="timeline-header">
+          <div class="timeline-company">Codex – Design e Relações Públicas</div>
+          <div class="timeline-period">2009 → 2010</div>
+        </div>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-card">
+        <div class="timeline-header">
+          <div class="timeline-company">Redvo – Infocomunicações, SA.</div>
+          <div class="timeline-period">2008 → 2009</div>
+        </div>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-card">
+        <div class="timeline-header">
+          <div class="timeline-company">Braitling – Sistemas de Comunicação</div>
+          <div class="timeline-period">2005 → 2008</div>
+        </div>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-card">
+        <div class="timeline-header">
+          <div class="timeline-company">Freelancer – Webdesign</div>
+          <div class="timeline-period">2000 → 2005</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- REFERENCES -->
+<section id="references" class="refs-section">
+  <div class="section-eyebrow">Portfolio</div>
+  <div class="section-title">Trusted by <span>13+ brands</span></div>
+  <div class="refs-marquee">
+    <a href="#" class="ref-pill">Joyn Group</a>
+    <a href="#" class="ref-pill">Infosistema</a>
+    <a href="#" class="ref-pill">Uniksystem</a>
+    <a href="#" class="ref-pill">Landskill</a>
+    <a href="#" class="ref-pill">Growin</a>
+    <a href="#" class="ref-pill">Fyld</a>
+    <a href="#" class="ref-pill">Joyn Ventures</a>
+    <a href="#" class="ref-pill">Vanity Terrace</a>
+    <a href="#" class="ref-pill">BizApis</a>
+    <a href="#" class="ref-pill">BizSupply.ai</a>
+    <a href="#" class="ref-pill">DocDigitizer</a>
+    <a href="#" class="ref-pill">CoverSuite</a>
+    <a href="#" class="ref-pill">Foreteller</a>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- CONTACT -->
+<section id="contact" class="contact-section">
+  <div class="contact-inner">
+    <div>
+      <div class="section-eyebrow">Contact</div>
+      <div class="contact-left-title">Let's build<br>something <span style="color:var(--accent)">great</span></div>
+      <div class="contact-left-sub">Have a project in mind? I'm available for new work — WordPress, UI/UX, front-end development, and consulting.</div>
+      <div class="contact-meta">
+        <div class="contact-meta-item">
+          <div class="contact-meta-icon">📍</div>
+          Parede, Portugal
+        </div>
+        <div class="contact-meta-item">
+          <div class="contact-meta-icon">✉️</div>
+          luis.particular@gmail.com
+        </div>
+        <div class="contact-meta-item">
+          <div class="contact-meta-icon">⚡</div>
+          Available for remote worldwide
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="form-field">
+        <label class="form-label">Name</label>
+        <input class="form-input" type="text" placeholder="Your name">
+      </div>
+      <div class="form-field">
+        <label class="form-label">Email</label>
+        <input class="form-input" type="email" placeholder="your@email.com">
+      </div>
+      <div class="form-field">
+        <label class="form-label">Subject</label>
+        <input class="form-input" type="text" placeholder="WordPress project, consulting...">
+      </div>
+      <div class="form-field">
+        <label class="form-label">Message</label>
+        <textarea class="form-input" placeholder="Describe your project..."></textarea>
+      </div>
+      <button class="form-submit">Send Message →</button>
+    </div>
+  </div>
+</section>
+
+<!-- PALETTE SWITCHER -->
+<div class="palette-switcher">
+  <label>Palette</label>
+  <button class="pal-btn active" onclick="setPalette('purple', this)">
+    <span class="pal-dot" style="background:#7c6fff"></span> Purple
+  </button>
+  <button class="pal-btn" onclick="setPalette('ocean', this)">
+    <span class="pal-dot" style="background:#06b6d4"></span> Ocean
+  </button>
+  <button class="pal-btn" onclick="setPalette('emerald', this)">
+    <span class="pal-dot" style="background:#10b981"></span> Emerald
+  </button>
+  <button class="pal-btn" onclick="setPalette('gold', this)">
+    <span class="pal-dot" style="background:#f59e0b"></span> Gold
+  </button>
+</div>
+
+<script>
+function setPalette(name, btn) {
+  document.documentElement.removeAttribute('data-palette');
+  if (name !== 'purple') document.documentElement.setAttribute('data-palette', name);
+  document.querySelectorAll('.pal-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>
