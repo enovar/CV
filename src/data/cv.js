@@ -53,5 +53,6 @@ export const cvData = {
     { name: "DocDigitizer", url: "https://www.docdigitizer.com" },
     { name: "CoverSuite", url: "https://www.coversuite.com" },
     { name: "Foreteller", url: "https://www.weareforeteller.com" },
+    { name: "Frndly", url: "https://www.frndly.io" },
   ],
 };
